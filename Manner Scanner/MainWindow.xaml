@@ -5,17 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Manner_Scanner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="472" Width="525">
+        Title="Manner Scanner" Height="472" Width="525">
 	<Grid Margin="0,0,0,-31" Height="472" VerticalAlignment="Top">
-		<TextBox x:Name="ipAddress" HorizontalAlignment="Left" Height="23" Margin="92,23,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+		<TextBox x:Name="ipAddress" HorizontalAlignment="Left" Height="23" Margin="92,23,0,0" TextWrapping="Wrap" Text="192.168.0.1" VerticalAlignment="Top" Width="120"/>
 		<Label x:Name="label" Content="IP Address" HorizontalAlignment="Left" Margin="21,20,0,0" VerticalAlignment="Top"/>
 		<Label x:Name="label1" Content="From" HorizontalAlignment="Left" Margin="50,110,0,0" VerticalAlignment="Top"/>
-		<TextBox x:Name="portsFrom" HorizontalAlignment="Left" Height="23" Margin="93,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+		<TextBox x:Name="portsFrom" HorizontalAlignment="Left" Height="23" Margin="93,114,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="120"/>
 		<Label x:Name="label1_Copy" Content="To" HorizontalAlignment="Left" Margin="277,110,0,0" VerticalAlignment="Top"/>
-		<TextBox x:Name="portsTo" HorizontalAlignment="Left" Height="23" Margin="304,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+		<TextBox x:Name="portsTo" HorizontalAlignment="Left" Height="23" Margin="304,114,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120"/>
 		<Label x:Name="label1_Copy1" Content="Ports to Scan" HorizontalAlignment="Left" Margin="50,79,0,0" VerticalAlignment="Top"/>
-		<TextBox x:Name="output" HorizontalAlignment="Left" Margin="40,190,0,77" TextWrapping="Wrap" Text="Output" Width="440"/>
-		<Button x:Name="button" Content="Start Scan" HorizontalAlignment="Left" Margin="349,155,0,0" VerticalAlignment="Top" Width="75"/>
+		<TextBox x:Name="output" HorizontalAlignment="Left" Margin="40,235,0,32" TextWrapping="Wrap" Text="Output" Width="440"/>
+		<Button x:Name="button" Content="Start Scan" HorizontalAlignment="Left" Margin="349,155,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+		<ProgressBar x:Name="scanProgress" HorizontalAlignment="Left" Height="25" Margin="40,190,0,0" VerticalAlignment="Top" Width="440"/>
 
 	</Grid>
 </Window>

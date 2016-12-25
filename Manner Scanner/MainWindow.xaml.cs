@@ -36,29 +36,67 @@ namespace Manner_Scanner
 			scanProgress.Value = 0;
 			scanProgress.Maximum = endPort - startPort + 1;
 
+			var scanList = from i in Enumerable.Range(startPort, endPort - startPort + 1)
+						   select ScanPort(i, ipAddress.Text)
+						   .ContinueWith(t => Report(t.Result),
+						   TaskScheduler.FromCurrentSynchronizationContext());
+
+			var tasks = scanList.ToArray();
+
+
 			output.Text = "";
-			DoEvents();
+			//DoEvents();
 
-			for (int curr = startPort; curr <= endPort; curr++)
-			{
-				TcpClient scan = new TcpClient();
+			//for (int curr = startPort; curr <= endPort; curr++)
+			//{
+			//	TcpClient scan = new TcpClient();
 
+			//	try
+			//	{
+			//		scan.Connect(ipAddress.Text, curr);
+			//		output.AppendText("Port " + curr + " open.\n");
+			//		DoEvents();
+			//	}
+			//	catch (Exception)
+			//	{
+			//		output.AppendText("Port " + curr + " closed.\n");
+			//		DoEvents();
+			//	}
 
-				try
-				{
-					scan.Connect(ipAddress.Text, curr);
-					output.AppendText("Port " + curr + " open.\n");
-					DoEvents();
-				}
-				catch (Exception)
-				{
-					output.AppendText("Port " + curr + " closed.\n");
-					DoEvents();
-				}
-
-				scanProgress.Value = scanProgress.Value + 1;
-			}
+			//	scanProgress.Value = scanProgress.Value + 1;
+			//}
 		}
+
+
+
+		private Task<string> ScanPort(int currentPort, string scanAddress)
+		{
+			return Task.Factory.StartNew(() =>
+			{
+				using (var tcpportScan = new TcpClient())
+				{
+					try
+					{
+						tcpportScan.SendTimeout = 10;
+						tcpportScan.Connect(scanAddress, currentPort);
+						return "Port " + currentPort + " open.\n";
+
+					}
+					catch (Exception)
+					{
+						return "Port " + currentPort + " closed.\n";
+					}
+
+				}
+			}, TaskCreationOptions.LongRunning);
+		}
+
+	private void Report(object message)
+		{
+			output.AppendText((string)message);
+			scanProgress.Value = scanProgress.Value + 1;
+		}
+
 
 		public void DoEvents()
 		{

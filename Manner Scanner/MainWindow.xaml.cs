@@ -18,8 +18,6 @@ using System.Windows.Threading;
 
 namespace Manner_Scanner
 {
-
-	
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>

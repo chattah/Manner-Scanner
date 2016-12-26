@@ -18,26 +18,33 @@ using System.Windows.Threading;
 
 namespace Manner_Scanner
 {
+
+	
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private const int PORT_MINIMUM = 1;
+		private const int PORT_MAXIMUM = 65535;
+		private int userSetStartPort;
+		private int userSetEndPort;
+
 		public MainWindow()
 		{
 			InitializeComponent();
 		}
 
-		private void button_Click(object sender, RoutedEventArgs e)
+		private void startScanButton_Click(object sender, RoutedEventArgs e)
 		{
-			int startPort = Convert.ToInt16(portsFrom.Text);
-			int endPort = Convert.ToInt16(portsTo.Text);
+			int startPort = Convert.ToInt32(portsFrom.Text);
+			int endPort = Convert.ToInt32(portsTo.Text);
 
 			scanProgress.Value = 0;
 			scanProgress.Maximum = endPort - startPort + 1;
 
 			var scanList = from i in Enumerable.Range(startPort, endPort - startPort + 1)
-						   select ScanPort(i, ipAddress.Text)
+						   select ScanPort(i, ipAddressStart.Text)
 						   .ContinueWith(t => Report(t.Result),
 						   TaskScheduler.FromCurrentSynchronizationContext());
 
@@ -45,26 +52,6 @@ namespace Manner_Scanner
 
 
 			output.Text = "";
-			//DoEvents();
-
-			//for (int curr = startPort; curr <= endPort; curr++)
-			//{
-			//	TcpClient scan = new TcpClient();
-
-			//	try
-			//	{
-			//		scan.Connect(ipAddress.Text, curr);
-			//		output.AppendText("Port " + curr + " open.\n");
-			//		DoEvents();
-			//	}
-			//	catch (Exception)
-			//	{
-			//		output.AppendText("Port " + curr + " closed.\n");
-			//		DoEvents();
-			//	}
-
-			//	scanProgress.Value = scanProgress.Value + 1;
-			//}
 		}
 
 
@@ -91,27 +78,31 @@ namespace Manner_Scanner
 			}, TaskCreationOptions.LongRunning);
 		}
 
-	private void Report(object message)
+		private void Report(object message)
 		{
 			output.AppendText((string)message);
 			scanProgress.Value = scanProgress.Value + 1;
 		}
 
-
-		public void DoEvents()
+		private void scanAllPorts_Checked(object sender, RoutedEventArgs e)
 		{
-			DispatcherFrame frame = new DispatcherFrame(true);
-			Dispatcher.CurrentDispatcher.BeginInvoke
-			(
-			DispatcherPriority.Background,
-			(SendOrPostCallback)delegate (object arg)
-			{
-				var f = arg as DispatcherFrame;
-				f.Continue = false;
-			},
-			frame
-			);
-			Dispatcher.PushFrame(frame);
+			userSetStartPort = Convert.ToInt32(portsFrom.Text);
+			userSetEndPort = Convert.ToInt32(portsTo.Text);
+
+			portsFrom.Text = PORT_MINIMUM.ToString();
+			portsTo.Text = PORT_MAXIMUM.ToString();
+
+			portsFrom.IsEnabled = false;
+			portsTo.IsEnabled = false;
+		}
+
+		private void scanAllPorts_Unchecked(object sender, RoutedEventArgs e)
+		{
+			portsFrom.Text = userSetStartPort.ToString();
+			portsTo.Text = userSetEndPort.ToString();
+
+			portsFrom.IsEnabled = true;
+			portsTo.IsEnabled = true;
 		}
 	}
 }

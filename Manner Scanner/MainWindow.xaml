@@ -5,18 +5,153 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Manner_Scanner"
         mc:Ignorable="d"
-        Title="Manner Scanner" Height="472" Width="525">
-	<Grid Margin="0,0,0,-31" Height="472" VerticalAlignment="Top">
-		<TextBox x:Name="ipAddress" HorizontalAlignment="Left" Height="23" Margin="92,23,0,0" TextWrapping="Wrap" Text="192.168.1.1" VerticalAlignment="Top" Width="120"/>
-		<Label x:Name="label" Content="IP Address" HorizontalAlignment="Left" Margin="21,20,0,0" VerticalAlignment="Top"/>
-		<Label x:Name="label1" Content="From" HorizontalAlignment="Left" Margin="50,110,0,0" VerticalAlignment="Top"/>
-		<TextBox x:Name="portsFrom" HorizontalAlignment="Left" Height="23" Margin="93,114,0,0" TextWrapping="Wrap" Text="77" VerticalAlignment="Top" Width="120"/>
-		<Label x:Name="label1_Copy" Content="To" HorizontalAlignment="Left" Margin="277,110,0,0" VerticalAlignment="Top"/>
-		<TextBox x:Name="portsTo" HorizontalAlignment="Left" Height="23" Margin="304,114,0,0" TextWrapping="Wrap" Text="81" VerticalAlignment="Top" Width="120"/>
-		<Label x:Name="label1_Copy1" Content="Ports to Scan" HorizontalAlignment="Left" Margin="50,79,0,0" VerticalAlignment="Top"/>
-		<TextBox x:Name="output" HorizontalAlignment="Left" Margin="40,235,0,77" TextWrapping="NoWrap" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Text="Output" Width="440"/>
-		<Button x:Name="button" Content="Start Scan" HorizontalAlignment="Left" Margin="349,155,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
-		<ProgressBar x:Name="scanProgress" HorizontalAlignment="Left" Height="25" Margin="40,190,0,0" VerticalAlignment="Top" Width="440"/>
+        Title="Manner Scanner" Height="602" Width="525">
+	<Grid Height="562" VerticalAlignment="Top" Margin="0,0,-8,0">
+
+		<GroupBox 
+			x:Name="groupBox" 
+			Header="IP Addresses to Scan" 
+			Margin="6,10,14,0" 
+			VerticalAlignment="Top" 
+			Height="90">
+
+			<TextBlock 
+				x:Name="textBlock" 
+				HorizontalAlignment="Left" 
+				Margin="10,10,0,0" 
+				TextWrapping="Wrap" 
+				Text="Leave the end field blank to just scan one IP address." 
+				VerticalAlignment="Top"/>
+		</GroupBox>
+
+
+		<Label 
+				x:Name="ipAddressStartLabel" 
+				Content="Start:" 
+				HorizontalAlignment="Left" 
+				Margin="17,61,0,0" 
+				VerticalAlignment="Top"/>
+
+		<TextBox 
+				x:Name="ipAddressStart" 
+				HorizontalAlignment="Left" 
+				Height="23" 
+				Margin="54,64,0,0" 
+				TextWrapping="Wrap" 
+				Text="192.168.1.1" 
+				VerticalAlignment="Top" 
+				Width="120"/>
+
+		<Label 
+				x:Name="ipAddressEndLabel" 
+				Content="End:" 
+				Margin="195,61,0,0"
+				HorizontalAlignment="Left" 
+				VerticalAlignment="Top"/>
+
+		<TextBox 
+				x:Name="ipAddressEnd" 
+				HorizontalAlignment="Left" 
+				Height="23" 
+				Margin="228,64,0,0"
+				TextWrapping="Wrap" 
+				Text="192.168.1.1" 
+				VerticalAlignment="Top" 
+				Width="120"/>
+
+
+
+
+		<GroupBox 
+			x:Name="portsToScanGroupBox" 
+			Header="Ports to Scan" 
+			Margin="6,110,14,0" 
+			Padding="0"
+			VerticalAlignment="Top" 
+			Height="120">
+		</GroupBox>
+
+		<Label 
+			x:Name="portsFromLabel" 
+			Content="From:" 
+			HorizontalAlignment="Left" 
+			Margin="14,141,0,0" 
+			VerticalAlignment="Top"/>
+
+		<TextBox 
+			x:Name="portsFrom" 
+			HorizontalAlignment="Left" 
+			Height="23" 
+			Margin="54,144,0,0" 
+			TextWrapping="Wrap" 
+			Text="77" 
+			VerticalAlignment="Top" 
+			Width="120"/>
+
+		<Label 
+			x:Name="portsToLabel" 
+			Content="To:" 
+			HorizontalAlignment="Left" 
+			Margin="195,141,0,0" 
+			VerticalAlignment="Top"/>
+
+		<TextBox 
+			x:Name="portsTo" 
+			HorizontalAlignment="Left" 
+			Height="23" 
+			Margin="228,144,0,0" 
+			TextWrapping="Wrap" 
+			Text="81" 
+			VerticalAlignment="Top" 
+			Width="120"/>
+
+		<CheckBox 
+			x:Name="checkBox" 
+			Content="Scan all ports" 
+			HorizontalAlignment="Left" 
+			Margin="17,172,0,0" 
+			VerticalAlignment="Top" Checked="scanAllPorts_Checked" Unchecked="scanAllPorts_Unchecked">
+			<CheckBox.ToolTip>
+				<ToolTip>
+					<StackPanel>
+						<TextBlock 
+							FontWeight="Bold">
+							Scan all ports
+						</TextBlock>
+						<TextBlock>
+							This will scan all available ports for each IP in the range above.
+						</TextBlock>
+					</StackPanel>
+				</ToolTip>
+			</CheckBox.ToolTip>
+		</CheckBox>
+		<Button 
+			x:Name="button" 
+			Content="Start Scan" 
+			HorizontalAlignment="Left" 
+			Margin="17,249,0,0" 
+			VerticalAlignment="Top" 
+			Width="75" 
+			Click="startScanButton_Click"/>
+
+		<ProgressBar 
+			x:Name="scanProgress" 
+			HorizontalAlignment="Left" 
+			Height="25" 
+			Margin="6,284,0,0" 
+			VerticalAlignment="Top" 
+			Width="495"/>
+
+		<TextBox 
+			x:Name="output" 
+			HorizontalAlignment="Left" 
+			Margin="6,314,0,20" 
+			TextWrapping="NoWrap" 
+			ScrollViewer.CanContentScroll="True" 
+			ScrollViewer.VerticalScrollBarVisibility="Auto" 
+			Text="Output" 
+			Width="495"/>
+
 
 	</Grid>
 </Window>
